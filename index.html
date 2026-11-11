@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="description" content="Painel local de controle de estoque com cadastro, movimentação de quantidades e avaliação do inventário.">
+ <title>Northstar Stock | Controle de estoque</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/style.css">
+ <script src="js/app.js" defer></script>
+</head>
+<body>
+ <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+ <header class="topbar">
+  <a class="brand" href="#inicio" aria-label="Northstar Stock - início">
+   <span class="brand-mark" aria-hidden="true">N</span>
+   <span>northstar<span class="brand-light">stock</span></span>
+  </a>
+
+  <div class="topbar-context">
+   <span class="context-kicker">OPERAÇÃO DE LOJA</span>
+   <strong>Central de inventário</strong>
+  </div>
+  <span class="online-indicator"><span aria-hidden="true"></span> Dados neste dispositivo</span>
+ </header>
+
+ <main id="conteudo" class="page-shell">
+  <section class="intro" id="inicio" aria-labelledby="page-title">
+   <div>
+    <p class="eyebrow">INVENTÁRIO / VISÃO GERAL</p>
+    <h1 id="page-title">Controle de estoque</h1>
+    <p class="intro-copy">Cadastre produtos, ajuste unidades e acompanhe quanto do capital está representado no estoque.</p>
+   </div>
+   <div class="intro-stamp" aria-label="Painel demonstrativo">
+    <span class="stamp-line">STOCK</span>
+    <strong>01</strong>
+    <span class="stamp-line">MANAGEMENT</span>
+   </div>
+  </section>
+
+  <section class="metrics" aria-label="Resumo do inventário">
+   <article class="metric-card metric-dark">
+    <p>VALOR TOTAL EM ESTOQUE</p>
+    <output id="stockTotal" class="metric-value">R$ 0,00</output>
+    <span class="metric-note">Quantidade × preço unitário</span>
+   </article>
+   <article class="metric-card">
+    <p>PRODUTOS CADASTRADOS</p>
+    <output id="productCount" class="metric-value">0</output>
+    <span class="metric-note">Itens diferentes no catálogo</span>
+   </article>
+   <article class="metric-card">
+    <p>UNIDADES DISPONÍVEIS</p>
+    <output id="unitCount" class="metric-value">0</output>
+    <span class="metric-note">Soma das quantidades atuais</span>
+   </article>
+  </section>
+
+  <section class="workspace" aria-label="Cadastro e lista de produtos">
+   <aside class="form-panel" aria-labelledby="form-title">
+    <div class="panel-heading">
+     <span class="panel-index">01 / ENTRADA</span>
+     <h2 id="form-title">Novo produto</h2>
+     <p>Preencha os dados principais para incluir um item no inventário.</p>
+    </div>
+    <form id="productForm">
+     <div class="field">
+      <label for="productName">Nome do produto</label>
+      <input id="productName" name="name" type="text" maxlength="80" autocomplete="off" required>
+     </div>
+     <div class="field-grid">
+      <div class="field">
+       <label for="productQuantity">Quantidade inicial</label>
+       <input id="productQuantity" name="quantity" type="number" min="0" step="1" inputmode="numeric" required>
+      </div>
+      <div class="field">
+       <label for="productPrice">Preço unitário (R$)</label>
+       <input id="productPrice" name="price" type="number" min="0.01" step="0.01" inputmode="decimal" required>
+      </div>
+     </div>
+     <div class="field">
+      <label for="productImage">Imagem do produto (URL segura, opcional)</label>
+      <input id="productImage" name="image" type="url" placeholder="https://..." autocomplete="url">
+      <small>Use um endereço HTTPS direto para uma imagem.</small>
+     </div>
+     <button class="primary-button" type="submit">Adicionar ao inventário <span aria-hidden="true">→</span></button>
+     <p id="formMessage" class="form-message" role="status" aria-live="polite" aria-atomic="true"></p>
+    </form>
+    <div class="form-footnote"><span aria-hidden="true">i</span> Os dados ficam salvos localmente neste navegador.</div>
+   </aside>
+
+   <section class="catalog-panel" aria-labelledby="catalog-title">
+    <div class="catalog-heading">
+     <div>
+      <span class="panel-index">02 / CATÁLOGO ATIVO</span>
+      <h2 id="catalog-title">Produtos cadastrados</h2>
+     </div>
+     <span class="catalog-badge">LISTA ATUAL</span>
+    </div>
+    <div class="table-scroll" tabindex="0" aria-label="Tabela de produtos. Em telas estreitas, deslize horizontalmente para consultar todas as colunas.">
+     <table>
+      <caption class="visually-hidden">Produtos, quantidades, preços unitários, valores totais e ações disponíveis.</caption>
+      <thead>
+       <tr>
+        <th scope="col">Produto</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Preço unitário</th>
+        <th scope="col">Valor total</th>
+        <th scope="col">Ações</th>
+       </tr>
+      </thead>
+      <tbody id="productRows"></tbody>
+     </table>
+    </div>
+    <p id="tableMessage" class="table-message" role="status" aria-live="polite">Carregando inventário...</p>
+    <div class="catalog-footer"><span>ATUALIZAÇÃO AUTOMÁTICA</span><span>VALORES EM REAL (BRL)</span></div>
+   </section>
+  </section>
+
+  <footer class="site-footer">
+   <span>NORTHSTAR STOCK / PROJETO EDUCACIONAL INDEPENDENTE</span>
+   <span>Inspirado em padrões de navegação de comércio eletrônico. Não afiliado à Amazon.</span>
+  </footer>
+ </main>
+</body>
+</html>
